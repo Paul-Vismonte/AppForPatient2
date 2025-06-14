@@ -1,4 +1,3 @@
-import { _mock } from './_mock';
 
 export const _measurements = {
   height: [

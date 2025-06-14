@@ -1,5 +1,3 @@
-'use client';
-
 import { styled } from '@mui/material/styles';
 import { Children, isValidElement } from 'react';
 import { mergeClasses } from 'minimal-shared/utils';

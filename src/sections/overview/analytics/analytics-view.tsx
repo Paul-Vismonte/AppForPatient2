@@ -1,10 +1,10 @@
 "use client";
 
-import { Box, Typography, Grid, Card, CardContent, CardHeader, Avatar } from '@mui/material';
+import { Box, Grid, Card, Avatar, Typography, CardHeader, CardContent } from '@mui/material';
+
 import { Iconify } from 'src/components/iconify';
 
-const AnalyticsView = () => {
-  return (
+const AnalyticsView = () => (
     <Box>
       <Box sx={{ mb: 5 }}>
         <Typography variant="h4" gutterBottom>
@@ -82,6 +82,5 @@ const AnalyticsView = () => {
       </Grid>
     </Box>
   );
-};
 
 export default AnalyticsView;

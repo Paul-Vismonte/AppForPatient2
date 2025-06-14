@@ -7,7 +7,7 @@ import CardHeader from '@mui/material/CardHeader';
 import { useTheme, alpha as hexAlpha } from '@mui/material/styles';
 
 import { fNumber } from 'src/utils/format-number';
-import { Chart, useChart, ChartLegends } from 'src/components/chart';
+import { ChartComponent, useChart, ChartLegends } from 'src/components/chart';
 
 // ----------------------------------------------------------------------
 
@@ -73,10 +73,36 @@ export function CourseProgress({ title, subheader, chart, sx, ...other }: Props)
     <Card sx={sx} {...other}>
       <CardHeader title={title} subheader={subheader} />
 
-      <Chart
-        type="donut"
-        series={chartSeries}
-        options={chartOptions}
+      <ChartComponent
+        data={{
+          labels: chart.series.map((item) => item.label),
+          datasets: [
+            {
+              label: 'Progress',
+              data: chartSeries,
+              backgroundColor: chartColors,
+              borderWidth: 0
+            }
+          ]
+        }}
+        options={{
+          responsive: true,
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          cutout: '72%',
+          tooltips: {
+            callbacks: {
+              label: (tooltipItem: any, data: any) => {
+                const label = data.labels[tooltipItem.index];
+                const value = data.datasets[0].data[tooltipItem.index];
+                return `${label}: ${fNumber(value)}`;
+              }
+            }
+          }
+        }}
         sx={{
           my: 5,
           mx: 'auto',

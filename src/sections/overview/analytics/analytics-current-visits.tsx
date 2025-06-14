@@ -7,7 +7,7 @@ import { useTheme } from '@mui/material/styles';
 import CardHeader from '@mui/material/CardHeader';
 
 import { fNumber } from 'src/utils/format-number';
-import { Chart, useChart, ChartLegends } from 'src/components/chart';
+import { ChartComponent as Chart, useChart, ChartLegends } from 'src/components/chart';
 
 // ----------------------------------------------------------------------
 
@@ -57,9 +57,23 @@ export function AnalyticsCurrentVisits({ title, subheader, chart, sx, ...other }
       <CardHeader title={title} subheader={subheader} />
 
       <Chart
-        type="pie"
-        series={chartSeries}
-        options={chartOptions}
+        data={{
+          labels: chartOptions?.labels,
+          datasets: [{
+            data: chartSeries,
+            backgroundColor: chartOptions?.colors,
+          }],
+        }}
+        options={{
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          ...chartOptions,
+        }}
         sx={{
           my: 6,
           mx: 'auto',
@@ -71,8 +85,7 @@ export function AnalyticsCurrentVisits({ title, subheader, chart, sx, ...other }
       <Divider sx={{ borderStyle: 'dashed' }} />
 
       <ChartLegends
-        labels={chartOptions?.labels}
-        colors={chartOptions?.colors}
+        legends={chart.series.map(item => item.label)}
         sx={{ p: 3, justifyContent: 'center' }}
       />
     </Card>

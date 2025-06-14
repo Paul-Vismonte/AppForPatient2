@@ -1,5 +1,3 @@
-'use client';
-
 import type {} from 'embla-carousel-autoplay';
 import type { EmblaCarouselType } from 'embla-carousel';
 

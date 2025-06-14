@@ -44,7 +44,9 @@ type Props = CardProps & {
     category: string;
     name: string | null;
     avatarUrl: string | null;
+    likes?: number;
   }[];
+  RowItem?: React.ComponentType<RowItemProps>;
 };
 
 export function BankingRecentTransitions({
@@ -64,9 +66,10 @@ export function BankingRecentTransitions({
           <TableHeadCustom headCells={headCells} />
 
           <TableBody>
-            {tableData.map((row) => (
-              <RowItem key={row.id} row={row} />
-            ))}
+            {tableData.map((row) => {
+              const RowItemComponent = props.RowItem || RowItem;
+              return <RowItemComponent key={row.id} row={row} />;
+            })}
           </TableBody>
         </Table>
       </Scrollbar>

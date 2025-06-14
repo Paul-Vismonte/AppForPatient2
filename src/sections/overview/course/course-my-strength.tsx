@@ -4,7 +4,7 @@ import Card from '@mui/material/Card';
 import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
-import { Chart, useChart } from 'src/components/chart';
+import { ChartComponent, useChart } from 'src/components/chart';
 
 // ----------------------------------------------------------------------
 
@@ -49,12 +49,41 @@ export function CourseMyStrength({ title, chart, sx, ...other }: Props) {
   return (
     <Card sx={sx} {...other}>
       <Typography variant="h6">{title}</Typography>
-      <Chart
-        type="radar"
-        series={chart.series}
-        options={chartOptions}
-        slotProps={{ loading: { py: 2.5 } }}
-        sx={{ mx: 'auto', width: 280, height: 280 }}
+      <ChartComponent
+        data={{
+          labels: chart.categories,
+          datasets: [
+            {
+              label: chart.series[0]?.name,
+              data: chart.series[0]?.data,
+              backgroundColor: theme.palette.primary.main,
+              borderColor: theme.palette.primary.main,
+              borderWidth: 2
+            }
+          ]
+        }}
+        options={{
+          responsive: true,
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          scales: {
+            r: {
+              beginAtZero: true,
+              ticks: {
+                display: true,
+                stepSize: 20
+              }
+            }
+          }
+        }}
+        sx={{
+          mx: 'auto',
+          width: 280,
+          height: 280,
+        }}
       />
     </Card>
   );

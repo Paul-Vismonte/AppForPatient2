@@ -1,13 +1,14 @@
 'use client';
 
+import { format } from 'date-fns';
 import { useState, useEffect } from 'react';
-import { Box, Container, Typography, Stack, Card, CardContent, CardHeader, Avatar, IconButton, CardActions } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { format } from 'date-fns';
+import { Box, Card, Stack, Avatar, Container, Typography, CardHeader, IconButton, CardContent, CardActions } from '@mui/material';
+
 import { DashboardContent } from 'src/layouts/dashboard';
-import { _healthAnnouncements } from 'src/_mock/health-announcements';
 import ImageModal from 'src/components/health/ImageModal';
+import { _healthAnnouncements } from 'src/_mock/health-announcements';
 
 type AnnouncementLikes = {
   [id: string]: number;
@@ -84,11 +85,11 @@ export default function HealthPage() {
           </Stack>
 
           <Stack spacing={3}>
-            {_healthAnnouncements.map((announcement, index) => (
+            {_healthAnnouncements.map((announcement, announcementIndex) => (
               <Card 
                 key={announcement.id} 
                 sx={{ mb: 3 }}
-                className={index === _healthAnnouncements.length - 1 ? 'last-post' : ''}
+                className={announcementIndex === _healthAnnouncements.length - 1 ? 'last-post' : ''}
               >
                 <CardHeader
                   avatar={
@@ -107,16 +108,16 @@ export default function HealthPage() {
                   <Typography variant="h6" gutterBottom>
                     {announcement.title}
                   </Typography>
-                  {announcement.content.map((line, index) => (
-                    <Typography key={index} paragraph>
+                  {announcement.content.map((line, lineIndex) => (
+                    <Typography key={lineIndex} paragraph>
                       {line}
                     </Typography>
                   ))}
                   {announcement.images.length > 0 && (
                     <Box sx={{ mt: 2, display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-                      {announcement.images.map((imageUrl, index) => (
+                      {announcement.images.map((imageUrl, imageIndex) => (
                         <Box
-                          key={index}
+                          key={imageIndex}
                           sx={{
                             position: 'relative',
                             width: 'calc(50% - 4px)',
@@ -130,14 +131,14 @@ export default function HealthPage() {
                         >
                           <img
                             src={imageUrl}
-                            alt={`Announcement ${index + 1}`}
+                            alt={`Announcement ${imageIndex + 1}`}
                             style={{
                               width: '100%',
                               height: '100%',
                               objectFit: 'cover',
                               cursor: 'pointer'
                             }}
-                            onClick={() => handleImageClick(announcement, index)}
+                            onClick={() => handleImageClick(announcement, imageIndex)}
                           />
                         </Box>
                       ))}
@@ -169,15 +170,17 @@ export default function HealthPage() {
                 color: 'text.secondary',
                 fontSize: '0.9rem'
               }}>
-                You've reached the end.
+                You&apos;ve reached the end.
               </Box>
             )}
-            <ImageModal
-              open={selectedImage !== null}
-              onClose={handleCloseModal}
-              announcement={selectedImage?.announcement || _healthAnnouncements[0]}
-              currentImageIndex={selectedImage?.index || 0}
-            />
+            {selectedImage && (
+              <ImageModal 
+                open={true}
+                onClose={handleCloseModal}
+                imageUrl={selectedImage.announcement.images[selectedImage.index || 0]}
+                title={selectedImage.announcement.title}
+              />
+            )}
           </Stack>
         </Stack>
       </Container>

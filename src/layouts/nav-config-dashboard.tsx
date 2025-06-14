@@ -2,8 +2,8 @@ import type { NavSectionProps } from 'src/components/nav-section';
 
 import { paths } from 'src/routes/paths';
 import { CONFIG } from 'src/global-config';
-import { Label } from 'src/components/label';
-import { Iconify } from 'src/components/iconify';
+// import { Label } from 'src/components/label';
+// import { Iconify } from 'src/components/iconify';
 import { SvgColor } from 'src/components/svg-color';
 
 // ----------------------------------------------------------------------
@@ -75,7 +75,7 @@ export const navData: NavSectionProps['data'] = [
     items: [
       { title: 'Home', path: paths.dashboard.root, icon: ICONS.kanban }, // Using kanban icon as a box representation
       { title: 'Health Bites', path: paths.dashboard.general.health, icon: ICONS.health }, // Health overview dashboard
-      { title: 'My Doctor', path: '/dashboard/analytics', icon: ICONS.doctor }, // Direct path to analytics page
+      { title: 'My Doctor', path: '/dashboard/overview-analytics', icon: ICONS.doctor }, // Path to overview analytics view
       { title: 'Appointment', path: paths.dashboard.general.banking, icon: ICONS.appointment },
       { title: 'Chat', path: paths.dashboard.chat, icon: ICONS.chat }, // Using the correct chat path
       { title: 'Calendar', path: paths.dashboard.calendar, icon: ICONS.calendar },

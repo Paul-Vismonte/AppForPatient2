@@ -7,10 +7,14 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import { useTabs } from 'minimal-shared/hooks';
 import { useTheme } from '@mui/material/styles';
+import { useRef, useEffect } from 'react';
 
 import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
-import { Chart, useChart } from 'src/components/chart';
+import { useChart } from 'src/components/chart';
+import ChartJS from 'chart.js/auto';
+import { ChartOptions } from 'chart.js/auto';
+import { ChartTypeRegistry } from 'chart.js/auto';
 import { CustomTabs } from 'src/components/custom-tabs';
 import { fPercent, fCurrency } from 'src/utils/format-number';
 
@@ -41,14 +45,23 @@ export function BankingOverview({ sx, ...other }: CardProps) {
   const chartColors =
     tabs.value === 'income' ? [theme.palette.primary.dark] : [theme.palette.warning.dark];
 
-  const chartOptions = useChart({
-    colors: chartColors,
-    xaxis: { categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'] },
-    stroke: { width: 3 },
-    tooltip: {
-      y: { formatter: (value: number) => fCurrency(value), title: { formatter: () => '' } },
+  const options: ChartOptions<'line'> = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false,
+      },
     },
-  });
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: {
+          callback: (value) => fCurrency(Number(value)),
+        },
+      },
+    },
+  } as const;
 
   const renderBalance = () => (
     <Box sx={{ flexGrow: 1 }}>
@@ -198,6 +211,39 @@ export function BankingOverview({ sx, ...other }: CardProps) {
     </CustomTabs>
   );
 
+  const chartRef = useRef<HTMLCanvasElement>(null);
+  const chartInstanceRef = useRef<ChartJS>(null);
+
+  useEffect(() => {
+    if (chartInstanceRef.current) {
+      chartInstanceRef.current.destroy();
+    }
+
+    const chart = new ChartJS(chartRef.current, {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+        datasets: [
+          {
+            label: tabs.value === 'income' ? 'Income' : 'Expenses',
+            data: tabs.value === 'income' ? TABS[0].chart.series[0].data : TABS[1].chart.series[0].data,
+            borderColor: chartColors[0],
+            tension: 0.4,
+          },
+        ],
+      },
+      options,
+    });
+
+    chartInstanceRef.current = chart;
+
+    return () => {
+      if (chartInstanceRef.current) {
+        chartInstanceRef.current.destroy();
+      }
+    };
+  }, [tabs.value, chartColors, options]);
+
   return (
     <Card sx={[{ p: 3 }, ...(Array.isArray(sx) ? sx : [sx])]} {...other}>
       <Box
@@ -214,12 +260,9 @@ export function BankingOverview({ sx, ...other }: CardProps) {
 
       {renderTabs()}
 
-      <Chart
-        type="line"
-        series={tabs.value === 'income' ? TABS[0].chart.series : TABS[1].chart.series}
-        options={chartOptions}
-        sx={{ height: 270 }}
-      />
+      <Box sx={{ height: 270 }}>
+        <canvas ref={chartRef} />
+      </Box>
     </Card>
   );
 }

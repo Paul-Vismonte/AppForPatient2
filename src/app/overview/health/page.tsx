@@ -1,16 +1,16 @@
-import { BankingOverview } from '@/sections/health/banking-overview';
-import { BankingExpensesCategories } from '@/sections/health/banking-expenses-categories';
-import { BankingRecentTransitions } from '@/sections/health/banking-recent-transitions';
-import { BankingCurrentBalance } from '@/sections/health/banking-current-balance';
-import { BankingQuickTransfer } from '@/sections/health/banking-quick-transfer';
-import { BankingContacts } from '@/sections/health/banking-contacts';
-import { BankingInviteFriends } from '@/sections/health/banking-invite-friends';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 import { CONFIG } from '@/global-config';
 import { DashboardContent } from '@/layouts/dashboard';
 import { Iconify } from '@/components/iconify/iconify';
-import { _healthLatestAnnouncements, _healthClinicPartners } from '@/_mock/_health';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+import { BankingOverview } from '@/sections/health/banking-overview';
+import { BankingContacts } from '@/sections/health/banking-contacts';
+import { BankingQuickTransfer } from '@/sections/health/banking-quick-transfer';
+import { BankingInviteFriends } from '@/sections/health/banking-invite-friends';
+import { BankingCurrentBalance } from '@/sections/health/banking-current-balance';
+import { _healthClinicPartners, _healthLatestAnnouncements } from '@/_mock/_health';
+import { BankingRecentTransitions } from '@/sections/health/banking-recent-transitions';
+import { BankingExpensesCategories } from '@/sections/health/banking-expenses-categories';
 
 export default function OverviewHealthPage() {
   return (

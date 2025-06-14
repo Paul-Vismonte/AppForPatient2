@@ -1,12 +1,11 @@
 import type { CardProps } from '@mui/material/Card';
-import type { ChartOptions } from 'src/components/chart';
 
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import { useTheme, alpha as hexAlpha } from '@mui/material/styles';
 
 import { fNumber } from 'src/utils/format-number';
-import { Chart, useChart } from 'src/components/chart';
+import { ChartComponent as Chart, useChart } from 'src/components/chart';
 
 // ----------------------------------------------------------------------
 
@@ -32,7 +31,7 @@ export function AnalyticsConversionRates({ title, subheader, chart, sx, ...other
     hexAlpha(theme.palette.primary.dark, 0.24),
   ];
 
-  const chartOptions = useChart({
+  const chartOptions = {
     colors: chartColors,
     stroke: { width: 2, colors: ['transparent'] },
     tooltip: {
@@ -65,10 +64,24 @@ export function AnalyticsConversionRates({ title, subheader, chart, sx, ...other
       <CardHeader title={title} subheader={subheader} />
 
       <Chart
-        type="bar"
-        series={chart.series}
-        options={chartOptions}
-        slotProps={{ loading: { p: 2.5 } }}
+        data={{
+          labels: chart.categories,
+          datasets: chart.series.map((series) => ({
+            label: series.name,
+            data: series.data,
+            backgroundColor: chartColors,
+          })),
+        }}
+        options={{
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          ...chartOptions,
+        }}
         sx={{
           pl: 1,
           py: 2.5,

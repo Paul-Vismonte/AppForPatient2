@@ -6,10 +6,10 @@ import Button from '@mui/material/Button';
 import { varAlpha } from 'minimal-shared/utils';
 import Typography from '@mui/material/Typography';
 
-import { paths } from 'src/routes/paths';
+// import { paths } from 'src/routes/paths';
 import { CONFIG } from 'src/global-config';
-import { Label } from 'src/components/label';
-import { Avatar } from 'src/components/avatar';
+// import { Label } from 'src/components/label';
+// import { Avatar } from 'src/components/avatar';
 import { useAuthContext } from 'src/auth/hooks';
 
 // ----------------------------------------------------------------------

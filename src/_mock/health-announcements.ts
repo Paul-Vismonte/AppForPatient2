@@ -14,8 +14,8 @@ export const _healthAnnouncements = [
       'Once you\'ve selected a location, clinics nearby will appear. It\'s that easy!'
     ],
     images: [
-      '/assets/images/health/patientpic1.png',
-      '/assets/images/health/patientpic2.png'
+      { src: '/assets/images/health/patientpic1.png', caption: 'Step 1: Select Location' },
+      { src: '/assets/images/health/patientpic2.png', caption: 'Step 2: Choose Location' }
     ],
     likes: 4
   },
@@ -32,9 +32,9 @@ export const _healthAnnouncements = [
       '4️⃣ And that\'s it! ✅ Once selected, patients will now be able to see your clinic on their end 👀📍'
     ],
     images: [
-      '/assets/images/health/patientpic3.png',
-      '/assets/images/health/patientpic4.png',
-      '/assets/images/health/patientpic5.png'
+      { src: '/assets/images/health/patientpic3.png', caption: 'Step 1: Edit Clinic' },
+      { src: '/assets/images/health/patientpic4.png', caption: 'Step 2: Select Partners' },
+      { src: '/assets/images/health/patientpic5.png', caption: 'Step 3: Search Partners' }
     ],
     likes: 4
   },

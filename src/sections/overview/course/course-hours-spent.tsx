@@ -6,7 +6,9 @@ import { useState, useCallback } from 'react';
 import { useTheme } from '@mui/material/styles';
 import CardHeader from '@mui/material/CardHeader';
 
-import { Chart, useChart, ChartSelect } from 'src/components/chart';
+import { ChartComponent } from 'src/components/chart';
+import { useChart } from 'src/components/chart';
+import { ChartSelect } from 'src/components/chart-select';
 
 // ----------------------------------------------------------------------
 
@@ -63,11 +65,34 @@ export function CourseHoursSpent({ title, subheader, chart, sx, ...other }: Prop
         sx={{ mb: 3 }}
       />
 
-      <Chart
-        type="line"
-        series={currentSeries?.data}
-        options={chartOptions}
-        slotProps={{ loading: { p: 2.5 } }}
+      <ChartComponent
+        data={{
+          labels: currentSeries?.categories,
+          datasets: [
+            {
+              label: selectedSeries,
+              data: currentSeries?.data[0]?.data,
+              borderColor: theme.palette.primary.main,
+              tension: 0.4
+            }
+          ]
+        }}
+        options={{
+          responsive: true,
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                callback: (value) => `${value} h`
+              }
+            }
+          }
+        }}
         sx={{
           pl: 1,
           py: 2.5,

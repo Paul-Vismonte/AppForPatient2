@@ -1,14 +1,17 @@
 import type { CardProps } from '@mui/material/Card';
-import type { ChartOptions } from 'src/components/chart';
+import { Chart, ChartData } from 'chart.js/auto';
+import { ChartOptions } from 'chart.js/auto';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Divider from '@mui/material/Divider';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { useTheme } from '@mui/material/styles';
 import CardHeader from '@mui/material/CardHeader';
 
 import { fCurrency } from 'src/utils/format-number';
-import { Chart, useChart, ChartLegends } from 'src/components/chart';
+import { useChart, ChartLegends } from 'src/components/chart';
+import ChartJS from 'chart.js/auto';
 
 // ----------------------------------------------------------------------
 
@@ -29,7 +32,7 @@ type Props = CardProps & {
 export function BankingExpensesCategories({ title, subheader, chart, sx, ...other }: Props) {
   const theme = useTheme();
 
-  const chartColors = chart.colors ?? [
+  const chartColors: string[] = chart.colors ?? [
     theme.palette.secondary.dark,
     theme.palette.error.main,
     theme.palette.primary.main,
@@ -53,6 +56,47 @@ export function BankingExpensesCategories({ title, subheader, chart, sx, ...othe
     ...chart.options,
   });
 
+  const chartRef = useRef<HTMLCanvasElement>(null);
+  const chartInstanceRef = useRef<Chart<'polarArea', number[], string>>(null);
+
+  useEffect(() => {
+    // Clean up previous chart instance if it exists
+    if (chartInstanceRef.current) {
+      chartInstanceRef.current.destroy();
+    }
+
+    // Exit early if we don't have a canvas element
+    if (!chartRef.current) {
+      return;
+    }
+
+    // Create new chart instance
+    const chartInstance = new ChartJS(chartRef.current, {
+      type: 'polarArea',
+      data: {
+        labels: chart.series.map((item) => item.label),
+        datasets: [
+          {
+            label: 'Expenses',
+            data: chartSeries,
+            backgroundColor: chartColors,
+          },
+        ],
+      },
+      options: chartOptions,
+    });
+
+    // Store the chart instance
+    chartInstanceRef.current = chartInstance;
+
+    // Cleanup function
+    return () => {
+      if (chartInstanceRef.current) {
+        chartInstanceRef.current.destroy();
+      }
+    };
+  }, [chartSeries, chartOptions, chartColors]);
+
   return (
     <Card sx={sx} {...other}>
       <CardHeader title={title} subheader={subheader} />
@@ -69,13 +113,7 @@ export function BankingExpensesCategories({ title, subheader, chart, sx, ...othe
           justifyContent: 'center',
         }}
       >
-        <Chart
-          type="polarArea"
-          series={chartSeries}
-          options={chartOptions}
-          slotProps={{ loading: { p: 3 } }}
-          sx={{ width: { xs: 240, md: 280 }, height: { xs: 240, md: 280 } }}
-        />
+        <canvas ref={chartRef} sx={{ width: { xs: 240, md: 280 }, height: { xs: 240, md: 280 } }} />
 
         <ChartLegends
           colors={chartOptions?.colors}

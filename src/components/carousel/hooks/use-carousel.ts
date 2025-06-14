@@ -1,5 +1,3 @@
-'use client';
-
 import type { EmblaPluginType } from 'embla-carousel';
 
 import { useMemo } from 'react';

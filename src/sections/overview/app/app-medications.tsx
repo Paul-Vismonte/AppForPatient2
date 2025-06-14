@@ -1,9 +1,10 @@
 'use client';
 
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
+import Typography from '@mui/material/Typography';
 import CardContent from '@mui/material/CardContent';
+
 import { Iconify } from 'src/components/iconify';
 
 export function AppMedications() {

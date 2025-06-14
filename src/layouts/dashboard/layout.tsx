@@ -23,7 +23,7 @@ import { HeaderSection } from '../core/header-section';
 import { LayoutSection } from '../core/layout-section';
 import { AccountDrawer } from '../components/account-drawer';
 import { SettingsButton } from '../components/settings-button';
-import { LanguagePopover } from '../components/language-popover';
+// import { LanguagePopover } from '../components/language-popover';
 import { WorkspacesPopover } from '../components/workspaces-popover';
 import { navData as dashboardNavData } from '../nav-config-dashboard';
 import { dashboardLayoutVars, dashboardNavColorVars } from './css-vars';
@@ -33,10 +33,10 @@ import type { MainSectionProps } from '../core/main-section';
 import type { HeaderSectionProps } from '../core/header-section';
 import type { LayoutSectionProps } from '../core/layout-section';
 
-import { allLangs } from 'src/locales';
+import {_notifications } from 'src/_mock';
+// import { allLangs } from 'src/locales';
 import { Logo } from 'src/components/logo';
 import { useAuthContext } from 'src/auth/hooks';
-import { _contacts, _notifications } from 'src/_mock';
 import { useSettingsContext } from 'src/components/settings';
 
 // ----------------------------------------------------------------------

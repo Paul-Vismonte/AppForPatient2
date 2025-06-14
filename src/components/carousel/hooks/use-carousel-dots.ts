@@ -1,4 +1,6 @@
-'use client';
+"use client"
+
+"use client"
 
 import type { EmblaCarouselType } from 'embla-carousel';
 
@@ -15,7 +17,7 @@ export function useCarouselDots(mainApi?: EmblaCarouselType): UseCarouselDotsRet
 
   const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
 
-  const onClickDot = useCallback(
+  const onClickDot = useCallback  (
     (index: number) => {
       if (!mainApi) return;
       mainApi.scrollTo(index);
